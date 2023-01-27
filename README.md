@@ -1,5 +1,5 @@
 # Inteligent Redact Tool
- PDF redact tool that redact sensitive information using a NER (named entity recognition) model and regex.
+ PDF redact tool that find sensitive information using a NER (named entity recognition) model and regex.
  
  ## Step 1: PDF text processing using a NER model in python
  Usign Procesador.ipynb jupyter notebook, user can change a PDF and process it. In the back, there is aux_procesador.py script 
