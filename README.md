@@ -1,4 +1,4 @@
-# Inteligent-redact-tool
+# Inteligent Redact Tool
  PDF redact tool that redact sensitive information using a NER (named entity recognition) model and regex.
  
  ## Step 1: PDF text processing using a NER model in python
