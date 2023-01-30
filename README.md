@@ -7,6 +7,11 @@
  and using regex identifies: RFC, CURP, PASPORT, OCR, CLABE, email, phone numbers, amounts, etc.; to finally create a pandas 
  df that  stores the entity and where is in the PDF, that is saved in to_redact.csv.
  
+ <img
+  src="https://github.com/mjhl1999/Inteligent-redact-tool/blob/main/images/procesador.png"
+  title="Procesador.ipynb"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+ 
  ## Step 2: Review and feed back from user
  User can check to_redact.csv and remove incorrect results, or use 'terminos_exceptuados.xlsx' and 'terminos_relevantes.xlsx' to 
  give feed back about what terms are important to (or not to) redact.
