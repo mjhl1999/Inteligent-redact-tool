@@ -12,36 +12,93 @@ def find_nth(haystack, needle, n):
 
 def check_regex(text):
     #RFC Persona Física
-    if re.search(r'^[a-zA-Z]{4}[0-9]{6}[a-zA-Z]{1}[a-zA-Z]{2}[a-zA-Z]{3}[a-zA-Z0-9]{2}$', text):
-        return True
+    if re.search(r'^[a-zA-Z]{4}[0-9]{6}[a-zA-Z0-9]{3}$', text):
+        return text
     #CURP
-    if re.search(r'^[a-zA-Z0-9]{9}$', text):
-        return True
+    if re.search(r'^[a-zA-Z]{4}[0-9]{6}[a-zA-Z]{1}[a-zA-Z]{2}[a-zA-Z]{3}[a-zA-Z0-9]{2}$', text):
+        return text
     #PASAPORTE
-    if re.search(r'^[a-zA-Z]{6}[0-9]{6}[0-9]{2}[a-zA-Z]{1}[a-zA-Z0-9]{3}$', text):
-        return True
+    if re.search(r'^(?=.*\d)[A-Z0-9]{9}\.?$', text):
+        return text
     #CLAVE DE ELECTOR
     if re.search(r'^[a-zA-Z]{6}[0-9]{6}[0-9]{2}[a-zA-Z]{1}[a-zA-Z0-9]{3}$', text):
-        return True
+        return text
+    #OCR INE
+    if re.search(r'^[0-9]{13}$', text):
+        return text
     if re.search(r'^[0-9]{12}$', text):
-        return True
+        return text
     #CLABE Interbancaria
     if re.search(r'^[0-9]{16}$', text):
-        return True
+        return text
     #Email
     if re.search(r'\S+@\S+', text):
-        return True
+        t = text.split('.')
+        t = '. '.join(t)
+        t = t.split('@')
+        t = '@ '.join(t)
+        return t
     #Números de celular
+    if re.search(r'(?:0|\+?52)-\+?[\d]{2}-[\d]{4}-[\d]{4}$', text): #Reconoce +52-55-3146-3717 y +52 55 3146 3717 solo funciona con el código internacional de México
+        t = text.split('+')
+        t = '\+ '.join(t)
+        t = t.split('-')
+        t = '- '.join(t)
+        return t  
     if re.search(r'(?:\+\d{2})?\d{3,4}\D?\d{3}\D?\d{3}', text): #Reconoce 5531463717
-        return True
+        t = text.split('(')
+        t = '\( '.join(t)
+        t = t.split(')')
+        t = ') '.join(t)
+        t = t.split('-')
+        t = '- '.join(t)
+        return t
     if re.search(r'\+?[\d]{2}-[\d]{4}-[\d]{4}', text): #Reconoce 55-3146-3717
-        return True
+        t = text.split('-')
+        t = '- '.join(t)
+        return t
     if re.search(r'\+?[\d]{3}-[\d]{3}-[\d]{4}', text): #Reconoce 669-982-1312
-        return True
-    #if re.search(r'\+?[\d]{3})[\d]{3}-[\d]{4}', text): #Reconoce (669)982-1312
-    #    return True   
-    if re.search(r'(?:0|\+?52)\s?(?:\d\s?){9,11}$', text): #Reconoce +52-55-3146-3717 y +52 55 3146 3717... solo funciona con el código internacional de México
-        return True
+        t = text.split('-')
+        t = '- '.join(t)
+        return t
+    if re.search(r'(\+?[\d]{3})[\d]{3}-[\d]{4}', text): #Reconoce (669)982-1312
+        t = text.split('(')
+        t = '\( '.join(t)
+        t = t.split(')')
+        t = ') '.join(t)
+        t = t.split('-')
+        t = '- '.join(t)
+        return t  
+    #Oficios
+    if re.search(r'([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/(.+)', text): #Reconoce GGD/SKS/2022
+        text = text.split('/')
+        text = '/ '.join(text)
+        return text
+    #Cedulas profesionales
+    if re.search(r'^(cédula profesional número: )+[\d]', text): #Reconoce cédula profesional número: 2546986
+        return text
+    if re.search(r'^(cédula profesional número )+[\d]', text): #Reconoce cédula profesional número 2546986
+        return text
+    if re.search(r'^(cédula profesional )+[\d]', text): #Reconoce cédula profesional 2546986
+        return text
+    if re.search(r'^(cédula profesional: )+[\d]', text): #Reconoce cédula profesional: 2546986
+        return text
+    if re.search(r'^(Cédula profesional número: )+[\d]', text): #Reconoce Cédula profesional número: 2546986
+        return text
+    if re.search(r'^(Cédula profesional número )+[\d]', text): #Reconoce Cédula profesional número 2546986
+        return text
+    if re.search(r'^(Cédula profesional )+[\d]', text): #Reconoce Cédula profesional 2546986
+        return text
+    if re.search(r'^(Cédula profesional: )+[\d]', text): #Reconoce Cédula profesional: 2546986
+        return text
+    if re.search(r'^(CÉDULA PROFESIONAL NÚMERO: )+[\d]', text): #Reconoce CÉDULA PROFESIONAL NÚMERO: 2546986
+        return text
+    if re.search(r'^(CÉDULA PROFESIONAL NÚMERO )+[\d]', text): #Reconoce CÉDULA PROFESIONAL NÚMERO 2546986
+        return text
+    if re.search(r'^(CÉDULA PROFESIONAL )+[\d]', text): #Reconoce CÉDULA PROFESIONAL 2546986
+        return text
+    if re.search(r'^(CÉDULA PROFESIONAL: )+[\d]', text): #Reconoce CÉDULA PROFESIONAL: 2546986
+        return text
     return False
 
 
@@ -76,6 +133,12 @@ def process(path):
                             if (word.casefold() == termino.casefold()):
                                 save = False
                         if (save):
+                            if("\\" in word):
+                                word = word.split('\\')
+                                word = '\\ '.join(word)
+                            if("/" in word):
+                                word = word.split('/')
+                                word = '/ '.join(word)
                             df = pd.DataFrame([[word, page]], columns=['Término', 'Página'])
                             redact = pd.concat([redact, df])
     
@@ -83,8 +146,9 @@ def process(path):
             
             for w in range(len(page_words)):
                 word = page_words[w]
-                if(check_regex(word['text'])):
-                    df = pd.DataFrame([[word['text'], page]], columns=['Término', 'Página'])
+                regexx = check_regex(word['text'])
+                if(regexx != False):
+                    df = pd.DataFrame([[regexx, page]], columns=['Término', 'Página'])
                     redact = pd.concat([redact, df])
                 else:
                     for term in terminos_relevantes['Término']:
@@ -106,7 +170,11 @@ def process(path):
     redact = redact.drop_duplicates()
 
     try:
-        redact.to_csv(path_to_save + "\\" + "Escritorio" + "\\" + "to_redact.csv", index = False, encoding = 'utf-8', errors = 'ignore')
+        try:
+                redact.to_csv(path_to_save + "\\" + "Escritorio" + "\\" + "to_redact.csv", index = False, encoding = 'utf-8', errors = 'ignore', escapechar='\\')
+        except:
+                redact.to_csv(path_to_save+ "\\" + "Desktop" + "\\" + "to_redact.csv", index = False, encoding = 'utf-8', errors = 'ignore', escapechar='\\')
     except:
-        redact.to_csv(path_to_save+ "\\" + "Desktop" + "\\" + "to_redact.csv", index = False, encoding = 'utf-8', errors = 'ignore')
+        raise Exception('Por favor cierra Adobe Acrobat para poder continuar.') from None
+        
     print('El documento ha sido procesado.')
