@@ -16,6 +16,12 @@
  User can check to_redact.csv and remove incorrect results, or use 'terminos_exceptuados.xlsx' and 'terminos_relevantes.xlsx' to 
  give feed back about what terms are important to (or not to) redact.
  
+  <img
+  src="https://github.com/mjhl1999/Inteligent-redact-tool/blob/main/images/to_redact.png"
+  title="to_redact.csv"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  
+
  ## Step 3: Visualization and redact in Adobe Acrobat XI Pro
  Once user is satisfied with results, using Adobe Acrobat XI Pro action wizard they can visualize future redacts as red annotations
  in text, and check now in the PDF the redactions to be made, and then apply it.
